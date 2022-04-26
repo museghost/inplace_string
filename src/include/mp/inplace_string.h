@@ -292,15 +292,15 @@ namespace mp {
     // modifiers
     constexpr void swap(basic_inplace_string& other) { std::swap(chars_, other.chars_); }
 
-  private:
-    std::array<value_type, MaxSize + 1> chars_;  // size is stored as max_size() - size() on the last byte
-
     constexpr void size(size_type s)
     {
       if(s > max_size()) throw std::length_error("mp::basic_inplace_string: size() > max_size()");
       chars_[s] = '\0';
       chars_.back() = static_cast<impl_size_type>(max_size() - s);
     }
+
+  private:
+    std::array<value_type, MaxSize + 1> chars_;  // size is stored as max_size() - size() on the last byte    
   };
 
   // relational operators
@@ -430,6 +430,12 @@ namespace mp {
   // conversions
   template<typename CharT, std::size_t MaxSize, class Traits>
   inline std::basic_string<CharT, Traits> to_string(const basic_inplace_string<CharT, MaxSize, Traits>& v)
+  {
+    return {v.data(), v.size()};
+  }
+
+  template<typename CharT, std::size_t MaxSize, class Traits>
+  inline std::basic_string_view<CharT, Traits> to_sv(const basic_inplace_string<CharT, MaxSize, Traits>& v)
   {
     return {v.data(), v.size()};
   }
