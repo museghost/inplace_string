@@ -300,7 +300,7 @@ namespace mp {
     }
 
   private:
-    std::array<value_type, MaxSize + 1> chars_;  // size is stored as max_size() - size() on the last byte    
+    std::array<value_type, MaxSize + 1> chars_{0x00};  // size is stored as max_size() - size() on the last byte    
   };
 
   // relational operators
